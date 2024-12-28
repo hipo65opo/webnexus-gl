@@ -48,13 +48,15 @@ function createCheckerboardTexture() {
 
 export function TextScene({ text, color }: TextSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<THREE.Scene | null>(null)
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const meshRef = useRef<THREE.Mesh | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
+    
+    // コンテナの参照をエフェクト内で保持
+    const container = containerRef.current
 
     const scene = new THREE.Scene()
 
@@ -191,11 +193,12 @@ export function TextScene({ text, color }: TextSceneProps) {
         }
       }
       renderer.dispose()
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement)
+      // containerRefの代わりにcontainerを使用
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement)
       }
     }
-  }, [text, color])
+  }, [text, color]) // 依存配列はそのまま
 
   return (
     <div 

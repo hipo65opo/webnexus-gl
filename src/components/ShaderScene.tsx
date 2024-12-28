@@ -49,8 +49,6 @@ const fragmentShader = `
 
 export function ShaderScene({ parameters }: ShaderSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<THREE.Scene | null>(null)
-  const cameraRef = useRef<THREE.Camera | null>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const materialRef = useRef<THREE.ShaderMaterial | null>(null)
   const frameRef = useRef<number>()
@@ -59,19 +57,20 @@ export function ShaderScene({ parameters }: ShaderSceneProps) {
   // シーンの初期化
   useEffect(() => {
     if (!containerRef.current) return
+    
+    // コンテナの参照をエフェクト内で保持
+    const container = containerRef.current
 
     // シーンの設定
     const scene = new THREE.Scene()
-    sceneRef.current = scene
 
     // カメラの設定
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -1, 1)
-    cameraRef.current = camera
 
     // レンダラーの設定
     const renderer = new THREE.WebGLRenderer()
-    renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight)
-    containerRef.current.appendChild(renderer.domElement)
+    renderer.setSize(container.clientWidth, container.clientHeight)
+    container.appendChild(renderer.domElement)
     rendererRef.current = renderer
 
     // マテリアルの設定
@@ -114,11 +113,12 @@ export function ShaderScene({ parameters }: ShaderSceneProps) {
       geometry.dispose()
       material.dispose()
       renderer.dispose()
-      if (containerRef.current && renderer.domElement) {
-        containerRef.current.removeChild(renderer.domElement)
+      // containerRefの代わりにcontainerを使用
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement)
       }
     }
-  }, []) // 初期化は一度だけ
+  }, [parameters]) // パラメータ全体を依存配列に含める
 
   // パラメータの更新
   useEffect(() => {
