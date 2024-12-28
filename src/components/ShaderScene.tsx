@@ -51,7 +51,7 @@ export function ShaderScene({ parameters }: ShaderSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const materialRef = useRef<THREE.ShaderMaterial | null>(null)
-  const frameRef = useRef<number>()
+  const frameRef = useRef<number | undefined>(undefined)
   const startTimeRef = useRef<number>(Date.now())
 
   // シーンの初期化

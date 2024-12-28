@@ -51,6 +51,7 @@ export function TextScene({ text, color }: TextSceneProps) {
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null)
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
   const meshRef = useRef<THREE.Mesh | null>(null)
+  const frameRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if (!containerRef.current) return
