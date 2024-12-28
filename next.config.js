@@ -2,15 +2,30 @@
 const nextConfig = {
   transpilePackages: ['three'],
   webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'three': require.resolve('three')
+    // Three.jsのモジュール解決を設定
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve.alias,
+        'three': require.resolve('three')
+      },
+      fallback: {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        crypto: false
+      }
     }
 
-    // Three.jsのexamplesディレクトリへのアクセスを許可
+    // JSMモジュールの処理を設定
     config.module.rules.push({
-      test: /three\/examples\/jsm/,
-      type: 'javascript/auto'
+      test: /three[\/\\]examples[\/\\]jsm/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['next/babel']
+        }
+      }
     })
 
     return config
