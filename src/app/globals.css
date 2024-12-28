@@ -19,3 +19,16 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.gradient-background {
+  background: radial-gradient(circle at center, #333333 0%, #000000 100%);
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.canvas-container {
+  position: relative;
+  z-index: 1;
+  background-color: transparent;
+}
