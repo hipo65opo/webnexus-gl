@@ -2,19 +2,25 @@
 const nextConfig = {
   transpilePackages: ['three'],
   webpack: (config) => {
+    config.module.rules.push({
+      test: /three[\/\\]examples[\/\\]jsm/,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: {
+            presets: ['next/babel'],
+          },
+        },
+      ],
+    })
+
     config.resolve.alias = {
       ...config.resolve.alias,
-      'three': require.resolve('three')
+      'three': require.resolve('three'),
     }
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      path: false
-    }
-    config.module.rules.push({
-      test: /three\/examples\/jsm/,
-      use: 'babel-loader'
-    })
+
+    config.resolve.extensions = ['.js', '.jsx', '.ts', '.tsx', '.json']
+
     return config
   },
   output: 'standalone',
