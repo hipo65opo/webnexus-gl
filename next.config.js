@@ -4,8 +4,10 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      'three': require.resolve('three')
+      'three': require.resolve('three'),
+      'three/examples/jsm': require.resolve('three/examples/jsm')
     }
+    config.resolve.extensions = [...config.resolve.extensions, '.js', '.jsx', '.ts', '.tsx']
     return config
   },
   output: 'standalone',
