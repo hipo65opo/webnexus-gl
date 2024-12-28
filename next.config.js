@@ -4,10 +4,17 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      'three': require.resolve('three'),
-      'three/examples/jsm': require.resolve('three/examples/jsm')
+      'three': require.resolve('three')
     }
-    config.resolve.extensions = [...config.resolve.extensions, '.js', '.jsx', '.ts', '.tsx']
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      path: false
+    }
+    config.module.rules.push({
+      test: /three\/examples\/jsm/,
+      use: 'babel-loader'
+    })
     return config
   },
   output: 'standalone',
@@ -15,7 +22,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // ビルド時の型チェックを無効化（必要な場合）
     ignoreBuildErrors: true,
   },
   async headers() {
