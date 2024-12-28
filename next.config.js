@@ -4,10 +4,14 @@ const nextConfig = {
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      'three': require.resolve('three'),
-      'three/examples/jsm/geometries': require.resolve('three/examples/jsm/geometries'),
-      'three/examples/jsm/loaders': require.resolve('three/examples/jsm/loaders')
+      'three': require.resolve('three')
     }
+
+    // Three.jsのexamplesディレクトリへのアクセスを許可
+    config.module.rules.push({
+      test: /three\/examples\/jsm/,
+      type: 'javascript/auto'
+    })
 
     return config
   },
@@ -17,9 +21,6 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  },
-  experimental: {
-    swcMinify: true,
   },
   async headers() {
     return [
