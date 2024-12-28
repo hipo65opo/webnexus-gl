@@ -2,24 +2,12 @@
 const nextConfig = {
   transpilePackages: ['three'],
   webpack: (config) => {
-    config.module.rules.push({
-      test: /three[\/\\]examples[\/\\]jsm/,
-      use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: ['next/babel'],
-          },
-        },
-      ],
-    })
-
     config.resolve.alias = {
       ...config.resolve.alias,
       'three': require.resolve('three'),
+      'three/examples/jsm/geometries': require.resolve('three/examples/jsm/geometries'),
+      'three/examples/jsm/loaders': require.resolve('three/examples/jsm/loaders')
     }
-
-    config.resolve.extensions = ['.js', '.jsx', '.ts', '.tsx', '.json']
 
     return config
   },
@@ -29,6 +17,9 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+  experimental: {
+    swcMinify: true,
   },
   async headers() {
     return [
