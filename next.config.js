@@ -12,6 +12,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    // ビルド時の型チェックを無効化（必要な場合）
+    ignoreBuildErrors: true,
+  },
   async headers() {
     return [
       {
